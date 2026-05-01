@@ -136,7 +136,8 @@
 
         const App = () => {
             const [mounted, setMounted] = useState(false);
-            const downloadUrl = "https://drive.google.com/drive/folders/1p_nTvOiBvedK6ZC5h0Bn9sanmPDcurSm?usp=drive_link";
+            const gdriveUrl = "https://drive.google.com/drive/folders/1p_nTvOiBvedK6ZC5h0Bn9sanmPDcurSm?usp=drive_link";
+            const megaUrl = "https://mega.nz/folder/smdEnYKC#bt26eon07-puaqN5mwm8xA";
 
             useEffect(() => {
                 setMounted(true);
@@ -182,23 +183,50 @@
                                             Experience the next generation of algorithmic trading. Download the terminal to access advanced features, low latency execution, and dynamic analysis.
                                         </Typography>
 
-                                        <Button 
-                                            variant="contained" 
-                                            color="primary" 
-                                            size="large"
-                                            href={downloadUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            startIcon={<LucideIcon name="hard-drive" size={20} />}
-                                            sx={{ 
-                                                width: '100%', 
-                                                py: 2, 
-                                                fontSize: '1.2rem',
-                                                borderRadius: '12px'
-                                            }}
-                                        >
-                                            Download Terminal
-                                        </Button>
+                                        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, width: '100%' }}>
+                                            <Button 
+                                                variant="contained" 
+                                                color="primary" 
+                                                size="large"
+                                                href={gdriveUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                startIcon={<LucideIcon name="hard-drive" size={20} />}
+                                                sx={{ 
+                                                    flex: 1, 
+                                                    py: 1.5, 
+                                                    fontSize: '1.1rem',
+                                                    borderRadius: '12px'
+                                                }}
+                                            >
+                                                Google Drive
+                                            </Button>
+                                            
+                                            <Button 
+                                                variant="contained" 
+                                                size="large"
+                                                href={megaUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                startIcon={<LucideIcon name="cloud" size={20} />}
+                                                sx={{ 
+                                                    flex: 1, 
+                                                    py: 1.5, 
+                                                    fontSize: '1.1rem',
+                                                    borderRadius: '12px',
+                                                    backgroundColor: '#d9272e',
+                                                    color: 'white',
+                                                    '&:hover': {
+                                                        backgroundColor: '#b81c22',
+                                                        transform: 'translateY(-2px)',
+                                                        boxShadow: '0 8px 25px rgba(217,39,46,0.4)',
+                                                        border: '1px solid rgba(217,39,46,0.5)'
+                                                    }
+                                                }}
+                                            >
+                                                MEGA
+                                            </Button>
+                                        </Box>
                                         
                                         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center', gap: 3, opacity: 0.6 }}>
                                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
