@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DaTraders Terminal | Download</title>
+    <!-- Tailwind for base utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/@emotion/react@11/dist/emotion-react.umd.min.js"></script>
+    <script crossorigin src="https://unpkg.com/@emotion/styled@11/dist/emotion-styled.umd.min.js"></script>
+    <script crossorigin src="https://unpkg.com/@mui/material@5/umd/material-ui.production.min.js"></script>
+    
+    <!-- SEO meta tags -->
+    <meta name="description" content="Download the DaTraders Terminal. A powerful, modern trading interface for professionals.">
+    <style>
+        :root {
+            /* Industrial Theme Palette */
+            --bg-main: #121212;
+            --text: #FAFAFA;
+            --accent-blue: #4B91F7;
+        }
+
+        /* Liquid Glass Theme Overrides */
+        @keyframes gradient-bg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #020617, #0f172a, #1e1b4b, #000000);
+            background-size: 400% 400%;
+            animation: gradient-bg 15s ease infinite;
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02) !important;
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 24px !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* --- Pulse Animations --- */
+        @keyframes pulse-blue {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(75, 145, 247, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(75, 145, 247, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(75, 145, 247, 0); }
+        }
+
+        .pulse-icon {
+            animation: pulse-blue 2s infinite;
+            border-radius: 50%;
+        }
+
+        .glow-text {
+            color: #FFF;
+            text-shadow: 0 0 10px rgba(75, 145, 247, 0.8);
+            font-weight: 900;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { ThemeProvider, createTheme, CssBaseline, Button, Typography, Container, Box, Fade } = window.MaterialUI;
+        const { useState, useEffect } = React;
+
+        const liquidGlassTheme = createTheme({
+            palette: {
+                mode: 'dark',
+                primary: { main: '#4B91F7' },
+                secondary: { main: '#00E676' },
+                background: { default: 'transparent', paper: 'rgba(255, 255, 255, 0.03)' }
+            },
+            typography: {
+                fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+                h1: { fontWeight: 900 },
+                h4: { fontWeight: 800 },
+            },
+            shape: { borderRadius: 16 },
+            components: {
+                MuiButton: {
+                    styleOverrides: {
+                        root: {
+                            textTransform: 'none',
+                            fontWeight: 800,
+                            backdropFilter: 'blur(10px)',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                            transition: 'all 0.3s ease',
+                            padding: '12px 24px',
+                            '&:hover': {
+                                transform: 'translateY(-2px)',
+                                boxShadow: '0 8px 25px rgba(75,145,247,0.4)',
+                                border: '1px solid rgba(75,145,247,0.5)',
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const LucideIcon = ({ name, size = 24, className = "", color="currentColor" }) => {
+            const getIconSvg = () => {
+                if (!window.lucide) return '';
+                const pascalName = name.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join('');
+                const icon = window.lucide[pascalName] || window.lucide[name] || (window.lucide.icons && (window.lucide.icons[pascalName] || window.lucide.icons[name]));
+                if (!icon) return '';
+                if (typeof icon.toSvg === 'function') {
+                    return icon.toSvg({ width: size, height: size, class: className, 'stroke-width': 2, stroke: color });
+                }
+                if (window.lucide.createElement) {
+                    const el = window.lucide.createElement(icon);
+                    el.setAttribute('width', size);
+                    el.setAttribute('height', size);
+                    el.setAttribute('class', className);
+                    el.setAttribute('stroke', color);
+                    el.setAttribute('stroke-width', 2);
+                    return el.outerHTML;
+                }
+                return '';
+            };
+            return <span className="inline-flex items-center justify-center align-middle" dangerouslySetInnerHTML={{ __html: getIconSvg() }} />;
+        };
+
+        const App = () => {
+            const [mounted, setMounted] = useState(false);
+            const downloadUrl = "https://drive.google.com/drive/folders/1p_nTvOiBvedK6ZC5h0Bn9sanmPDcurSm?usp=drive_link";
+
+            useEffect(() => {
+                setMounted(true);
+            }, []);
+
+            return (
+                <ThemeProvider theme={liquidGlassTheme}>
+                    <CssBaseline />
+                    <Box 
+                        sx={{ 
+                            minHeight: '100vh', 
+                            display: 'flex', 
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            p: 3
+                        }}
+                    >
+                        <Fade in={mounted} timeout={1000}>
+                            <Container maxWidth="sm">
+                                <Box className="glass-panel" sx={{ p: { xs: 4, md: 6 }, textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+                                    {/* Decorative background elements */}
+                                    <Box sx={{ 
+                                        position: 'absolute', top: -50, left: -50, width: 150, height: 150, 
+                                        background: 'radial-gradient(circle, rgba(75,145,247,0.2) 0%, rgba(0,0,0,0) 70%)',
+                                        borderRadius: '50%', zIndex: 0
+                                    }} />
+                                    
+                                    <Box sx={{ position: 'relative', zIndex: 1 }}>
+                                        <Box className="pulse-icon" sx={{ 
+                                            display: 'inline-flex', p: 3, mb: 4, 
+                                            border: '2px solid rgba(75,145,247,0.5)',
+                                            background: 'rgba(75,145,247,0.1)'
+                                        }}>
+                                            <LucideIcon name="download-cloud" size={48} color="#4B91F7" />
+                                        </Box>
+
+                                        <Typography variant="h4" component="h1" gutterBottom className="glow-text">
+                                            DaTraders Terminal
+                                        </Typography>
+                                        
+                                        <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mb: 5, fontSize: '1.1rem', lineHeight: 1.6 }}>
+                                            Experience the next generation of algorithmic trading. Download the terminal to access advanced features, low latency execution, and dynamic analysis.
+                                        </Typography>
+
+                                        <Button 
+                                            variant="contained" 
+                                            color="primary" 
+                                            size="large"
+                                            href={downloadUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            startIcon={<LucideIcon name="hard-drive" size={20} />}
+                                            sx={{ 
+                                                width: '100%', 
+                                                py: 2, 
+                                                fontSize: '1.2rem',
+                                                borderRadius: '12px'
+                                            }}
+                                        >
+                                            Download Terminal
+                                        </Button>
+                                        
+                                        <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center', gap: 3, opacity: 0.6 }}>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                <LucideIcon name="shield-check" size={16} />
+                                                <Typography variant="caption">Secure</Typography>
+                                            </Box>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                <LucideIcon name="zap" size={16} />
+                                                <Typography variant="caption">Fast</Typography>
+                                            </Box>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                <LucideIcon name="monitor" size={16} />
+                                                <Typography variant="caption">Desktop</Typography>
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            </Container>
+                        </Fade>
+                        
+                        <Fade in={mounted} timeout={2000}>
+                            <Typography variant="caption" sx={{ mt: 6, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>
+                                © {new Date().getFullYear()} Da Traders. All rights reserved.
+                            </Typography>
+                        </Fade>
+                    </Box>
+                </ThemeProvider>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
