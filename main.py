@@ -9,7 +9,7 @@ app = FastAPI(title="DaTraders Terminal")
 
 # ─── Configuration ────────────────────────────────────────────────
 DERIV_APP_ID = os.environ.get("DERIV_APP_ID", "119695")
-DERIV_OAUTH_URL = f"https://oauth.deriv.com/oauth2/authorize?app_id={DERIV_APP_ID}"
+DERIV_OAUTH_URL = f"https://oauth.deriv.com/oauth2/authorize?app_id={DERIV_APP_ID}&l=EN&brand=deriv"
 
 # Persistent token storage (Render disk or env-based)
 TOKEN_STORE_PATH = Path(__file__).parent / "deriv_tokens.json"
