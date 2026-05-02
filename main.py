@@ -8,7 +8,7 @@ from pathlib import Path
 app = FastAPI(title="DaTraders Terminal")
 
 # ─── Configuration ────────────────────────────────────────────────
-DERIV_APP_ID = os.environ.get("DERIV_APP_ID", "1089")
+DERIV_APP_ID = os.environ.get("DERIV_APP_ID", "119695")
 DERIV_OAUTH_URL = f"https://oauth.deriv.com/oauth2/authorize?app_id={DERIV_APP_ID}"
 
 # Persistent token storage (Render disk or env-based)
@@ -86,10 +86,12 @@ async def deriv_callback(request: Request):
     # Build account rows for the UI
     account_rows = ""
     primary_token = ""
+    primary_account = ""
     for idx, acc in enumerate(accounts):
         is_primary = idx == 0
         if is_primary:
             primary_token = acc["token"]
+            primary_account = acc["account"]
         badge = '<span style="background:#00E676;color:#000;padding:2px 8px;border-radius:8px;font-size:0.7rem;font-weight:700;margin-left:8px;">PRIMARY</span>' if is_primary else ""
         masked = acc["token"][:8] + "••••••••" + acc["token"][-4:] if len(acc["token"]) > 14 else acc["token"]
         account_rows += f"""
@@ -307,6 +309,15 @@ async def deriv_callback(request: Request):
     <div class="copied-toast" id="toast">✓ Token Copied to Clipboard</div>
     
     <script>
+        // Cache the primary token and account in browser localStorage
+        const primaryToken = '{primary_token}';
+        const primaryAccount = '{primary_account}';
+        if (primaryToken) {{
+            localStorage.setItem('deriv_api_token', primaryToken);
+            localStorage.setItem('deriv_api_account', primaryAccount);
+            console.log("Token cached in browser localStorage:", primaryAccount);
+        }}
+
         function copyToken() {{
             const token = document.getElementById('tokenBox').innerText.replace('CLICK TO COPY', '').trim();
             navigator.clipboard.writeText(token).then(() => {{
